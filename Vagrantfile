@@ -13,8 +13,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "chef/ubuntu-14.04"
   config.vm.provision :shell, path: "vagrant-provision.sh",
     privileged: false
-  config.vm.provision :shell, path: "vagrant-provision-always.sh",
-    run: "always", privileged: false
 
   config.vm.network "forwarded_port", guest: 8100, host: 8100 # http server
   config.vm.network "forwarded_port", guest: 8101, host: 8101 # livereload
@@ -23,7 +21,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.network "forwarded_port", guest: 8202, host: 8202 # npm cache
   # config.vm.network "forwarded_port", guest: 8203, host: 8203 # selenium server
 
-  config.vm.synced_folder ".", "/home/vagrant/toc"
+  config.vm.synced_folder ".", "/home/vagrant/toc-env"
+  config.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc"
   # config.vm.synced_folder ".", "/home/vagrant/toc", type: "nfs"
   # config.vm.network "private_network", type: "dhcp"
   # config.winnfsd.logging = "on"

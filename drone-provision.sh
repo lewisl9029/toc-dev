@@ -20,21 +20,7 @@
 #deprovision and create vm image
 #source ./drone-provision.sh
 
-if [ -z "$USERNAME" ]; then
-  USERNAME=$(whoami)
-  echo "USERNAME=$USERNAME" | sudo tee -a /etc/environment
-fi
-
-if [ -z "$TOC_PATH" ]; then
-  TOC_PATH=/home/$USERNAME/toc
-  echo "TOC_PATH=$TOC_PATH" | sudo tee -a /etc/environment
-fi
-
-cd $TOC_PATH
-
-git pull
-
 source ./vagrant-provision.sh
 
-source ./containers/toc-setup-drone.sh
+source ./toc-setup-drone.sh
 # source ./containers/toc-setup-build.sh

@@ -10,6 +10,11 @@ if [ -z "$TOC_PATH" ]; then
   echo "TOC_PATH=$TOC_PATH" | sudo tee -a /etc/environment
 fi
 
+if [ -z "$TOC_ENV_PATH" ]; then
+  TOC_ENV_PATH=/home/$USERNAME/toc-env
+  echo "TOC_ENV_PATH=$TOC_ENV_PATH" | sudo tee -a /etc/environment
+fi
+
 (
 cat <<EOF
 alias toc="sudo docker run \
@@ -49,9 +54,6 @@ alias toct="toc \
 alias tocv="toc \
   sh -c 'xvfb-run -n 1 --server-args=\"-screen 0, 1366x768x24\" \
     gulp verify "$@"'"
-
-alias tocd="source $TOC_PATH/containers/toc-setup-drone.sh"
-alias tocw="source $TOC_PATH/containers/toc-setup-app.sh"
 EOF
 ) | tee ~/.bash_aliases
 
@@ -71,5 +73,4 @@ if ! dpkg -s lxc-docker | grep -q Version.*$DOCKER_VERSION; then
     && sudo rm -rf /tmp/* /var/tmp/*
 fi
 
-# source $TOC_PATH/containers/toc-setup-env.sh
-source $TOC_PATH/containers/toc-setup-dev.sh
+source $TOC_ENV_PATH/toc-setup-dev.sh
