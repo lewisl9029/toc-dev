@@ -1,4 +1,4 @@
-# Runtime Environment for Toc Messenger
+# Development Environment for Toc Messenger
 
 ## Environment Setup
 
