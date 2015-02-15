@@ -4,8 +4,6 @@ MAINTAINER Lewis Liu
 
 WORKDIR /usr/local
 
-# RUN echo 'Acquire::http { Proxy "http://'$(/sbin/ip route|awk '/default/ { print $3 }')':8201"; };' >> /etc/apt/apt.conf.d/01proxy
-
 RUN apt-get update \
   && apt-get install -y \
     ca-certificates=20130906ubuntu2 \
@@ -13,8 +11,11 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /tmp/* /var/tmp/*
 
-COPY .build/drone.deb /usr/local/
-RUN dpkg -i drone.deb && rm drone.deb
+ENV TOC_PACKAGE_HOST https://dl.dropboxusercontent.com/u/172349
+
+ENV TOC_DRONE_PACKAGE_NAME drone_v20150210.deb
+ADD $TOC_PACKAGE_HOST/$TOC_DRONE_PACKAGE_NAME /usr/local/
+RUN dpkg -i $TOC_DRONE_PACKAGE_NAME && rm $TOC_DRONE_PACKAGE_NAME
 
 EXPOSE 8080
 

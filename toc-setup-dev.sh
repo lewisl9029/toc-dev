@@ -1,58 +1,7 @@
 #!/usr/bin/env bash
-TOC_VER="$(git -C $TOC_ENV_PATH describe --tags --abbrev=0)"
+# TOC_VER="$(git -C $TOC_ENV_PATH describe --tags --abbrev=0)"
 
-TOC_NODE_PACKAGE_NAME="node-v0.12.0-linux-x64_v20150210.tar.gz"
-if [ ! -f $TOC_ENV_PATH/.build/$TOC_NODE_PACKAGE_NAME ]; then
-  curl https://dl.dropboxusercontent.com/u/172349/$TOC_NODE_PACKAGE_NAME \
-    --create-dirs -sS \
-    -o $TOC_ENV_PATH/.build/$TOC_NODE_PACKAGE_NAME
-fi
-
-TOC_CHROME_PACKAGE_NAME="google-chrome-stable_current_amd64_v20150209.deb"
-if [ ! -f $TOC_ENV_PATH/.build/$TOC_CHROME_PACKAGE_NAME ]; then
-  curl https://dl.dropboxusercontent.com/u/172349/$TOC_CHROME_PACKAGE_NAME \
-    --create-dirs -sS \
-    -o $TOC_ENV_PATH/.build/$TOC_CHROME_PACKAGE_NAME
-fi
-
-TOC_ANDROID_PACKAGE_NAME="android-sdk_r24.0.2-linux_v20150210.tar.gz"
-if [ ! -f $TOC_ENV_PATH/.build/$TOC_ANDROID_PACKAGE_NAME ]; then
-  curl https://dl.dropboxusercontent.com/u/172349/$TOC_ANDROID_PACKAGE_NAME \
-    --create-dirs -sS \
-    -o $TOC_ENV_PATH/.build/$TOC_ANDROID_PACKAGE_NAME
-fi
-
-TOC_PLATFORMS_PACKAGE_NAME="platforms_v20150210.tar.gz"
-if [ ! -f $TOC_ENV_PATH/.build/$TOC_PLATFORMS_PACKAGE_NAME ]; then
-  curl https://dl.dropboxusercontent.com/u/172349/$TOC_PLATFORMS_PACKAGE_NAME \
-    --create-dirs -sS \
-    -o $TOC_ENV_PATH/.build/$TOC_PLATFORMS_PACKAGE_NAME
-fi
-
-TOC_PLUGIN_PACKAGE_NAME="plugins_v20150210.tar.gz"
-if [ ! -f $TOC_ENV_PATH/.build/$TOC_PLUGIN_PACKAGE_NAME ]; then
-  curl https://dl.dropboxusercontent.com/u/172349/$TOC_PLUGIN_PACKAGE_NAME \
-    --create-dirs -sS \
-    -o $TOC_ENV_PATH/.build/$TOC_PLUGIN_PACKAGE_NAME
-fi
-
-TOC_ENGINE_PACKAGE_NAME="engine_v20150210.tar.gz"
-if [ ! -f $TOC_ENV_PATH/.build/$TOC_ENGINE_PACKAGE_NAME ]; then
-  curl https://dl.dropboxusercontent.com/u/172349/$TOC_ENGINE_PACKAGE_NAME \
-    --create-dirs -sS \
-    -o $TOC_ENV_PATH/.build/$TOC_ENGINE_PACKAGE_NAME
-fi
-
-sed "s/{{TOC_NODE_PACKAGE_NAME}}/$TOC_NODE_PACKAGE_NAME/g; \
-  s/{{TOC_CHROME_PACKAGE_NAME}}/$TOC_CHROME_PACKAGE_NAME/g; \
-  s/{{TOC_ANDROID_PACKAGE_NAME}}/$TOC_ANDROID_PACKAGE_NAME/g; \
-  s/{{TOC_PLATFORMS_PACKAGE_NAME}}/$TOC_PLATFORMS_PACKAGE_NAME/g; \
-  s/{{TOC_PLUGIN_PACKAGE_NAME}}/$TOC_PLUGIN_PACKAGE_NAME/g; \
-  s/{{TOC_ENGINE_PACKAGE_NAME}}/$TOC_ENGINE_PACKAGE_NAME/g" \
-  $TOC_ENV_PATH/Dockerfile \
-  | tee $TOC_ENV_PATH/.build/Dockerfile
-
+# sudo docker build \
+  # -t toc-dev:$TOC_VER $TOC_ENV_PATH/.build
 sudo docker build \
-  -t toc-dev:$TOC_VER $TOC_ENV_PATH/.build
-sudo docker build \
-  -t toc-dev:latest $TOC_ENV_PATH/.build
+  -t toc-dev:latest $TOC_ENV_PATH/

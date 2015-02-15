@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
-TOC_VER="$(git -C $TOC_ENV_PATH describe --tags --abbrev=0)"
-
-TOC_DRONE_PACKAGE_NAME="drone.deb"
-if [ ! -f $TOC_ENV_PATH/drone/.build/$TOC_DRONE_PACKAGE_NAME ]; then
-  curl https://dl.dropboxusercontent.com/u/172349/$TOC_DRONE_PACKAGE_NAME \
-    --create-dirs -sS \
-    -o $TOC_ENV_PATH/drone/.build/$TOC_DRONE_PACKAGE_NAME
-fi
+# TOC_VER="$(git -C $TOC_ENV_PATH describe --tags --abbrev=0)"
 
 if [ ! -f /home/$USERNAME/drone/drone.sqlite ]; then
   mkdir /home/$USERNAME/drone
@@ -19,7 +12,7 @@ if sudo docker ps | grep $CONTAINER_NAME; then
 fi
 
 sudo docker rm $CONTAINER_NAME
-sudo docker build -t $CONTAINER_NAME:$TOC_VER $TOC_ENV_PATH/drone
+# sudo docker build -t $CONTAINER_NAME:$TOC_VER $TOC_ENV_PATH/drone
 sudo docker build -t $CONTAINER_NAME:latest $TOC_ENV_PATH/drone
 sudo docker run \
   -d \
