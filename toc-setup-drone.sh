@@ -17,7 +17,7 @@ sudo docker build -t $CONTAINER_NAME:latest $TOC_ENV_PATH/drone
 sudo docker run \
   -d \
   --name $CONTAINER_NAME \
-  -p 8080:8080 \
+  -p 80:8080 \
   -v /var/lib/drone \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /home/$USERNAME/drone/drone.sqlite:/var/lib/drone/drone.sqlite \
