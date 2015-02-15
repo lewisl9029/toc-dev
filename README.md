@@ -4,7 +4,7 @@
 
 1. Install [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/)
 2. Clone this repository
-3. Clone the source repository
+3. Clone the source repository at [lewisl9029/toc](https://github.com/lewisl9029/toc)
 4. Add an environment variable TOC_PATH pointing to the directory where the source repo is located
 5. Open terminal and navigate to this repository
 6. Start and provision the development VM with docker installed:
