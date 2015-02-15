@@ -11,7 +11,7 @@
 #echo DRONE_SMTP_PASS= | sudo tee -a /etc/environment
 #sudo apt-get update \
 #  && sudo apt-get install -y \
-#    git=1:1.9.1-1ubuntu0.1 \
+#    git=1:1.9.1-1 \
 #  && sudo apt-get clean
 #cd ~
 #GITHUB_OAUTH_TOKEN=
