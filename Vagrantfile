@@ -45,4 +45,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vm.vmx["memsize"] = "1024"
     # vm.vmx["vmx.allowNested"] = "TRUE"
   end
+
+  config.vm.provider "hyperv" do |vm, override|
+    override.vm.box = "ericmann/trusty64"
+  end
 end
