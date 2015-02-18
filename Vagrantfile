@@ -47,6 +47,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provider "hyperv" do |vm, override|
-    override.vm.box = "ericmann/trusty64"
+    override.vm.box = "cirex/ubuntu-14.04"
   end
 end
