@@ -23,7 +23,7 @@ RUN apt-get update \
     xfonts-75dpi=1:1.0.3 \
     xfonts-cyrillic=1:1.0.3 \
     xfonts-scalable=1:1.0.3-1 \
-    xvfb=2:1.15.1-0ubuntu2.6 \
+    xvfb=2:1.15.1-0ubuntu2.7 \
   && apt-get clean \
   && rm -rf /tmp/* /var/tmp/*
 
@@ -68,10 +68,10 @@ RUN n 0.10.36
 RUN npm install -g cordova@4.2.0 && npm cache clean
 RUN npm install -g gulp-cli@0.1.5 && npm cache clean
 RUN npm install -g http-server@0.7.4 && npm cache clean
-RUN npm install -g ionic@1.3.10 && npm cache clean
-RUN npm install -g jspm@0.13.4 && npm cache clean
+RUN npm install -g ionic@1.3.11 && npm cache clean
+RUN npm install -g jspm@0.14.0 && npm cache clean
 RUN npm install -g karma-cli@0.0.4 && npm cache clean
-RUN npm install -g protractor@1.6.1 && npm cache clean
+RUN npm install -g protractor@1.7.0 && npm cache clean
 
 RUN webdriver-manager update
 
