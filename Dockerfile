@@ -65,13 +65,13 @@ WORKDIR /usr/local
 RUN npm install -g n && npm cache clean
 RUN n 0.10.36
 
-RUN npm install -g cordova@4.2.0 && npm cache clean
+RUN npm install -g cordova@4.3.0 && npm cache clean
 RUN npm install -g gulp-cli@0.1.5 && npm cache clean
-RUN npm install -g http-server@0.7.4 && npm cache clean
-RUN npm install -g ionic@1.3.11 && npm cache clean
+RUN npm install -g http-server@0.7.5 && npm cache clean
+RUN npm install -g ionic@1.3.14 && npm cache clean
 RUN npm install -g jspm@0.14.0 && npm cache clean
 RUN npm install -g karma-cli@0.0.4 && npm cache clean
-RUN npm install -g protractor@1.7.0 && npm cache clean
+RUN npm install -g protractor@1.8.0 && npm cache clean
 
 RUN webdriver-manager update
 
