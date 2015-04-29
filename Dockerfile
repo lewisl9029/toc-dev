@@ -1,4 +1,4 @@
-FROM ubuntu:14.04.1
+FROM ubuntu:14.04.2
 
 MAINTAINER Lewis Liu
 
@@ -16,7 +16,7 @@ RUN apt-get update \
     git=1:1.9.1-1 \
     lib32stdc++6=4.8.2-19ubuntu1 \
     lib32z1=1:1.2.8.dfsg-1ubuntu1 \
-    openjdk-7-jdk=7u75-2.5.4-1~trusty1 \
+    openjdk-7-jdk=7u79-2.5.5-0ubuntu0.14.04.2 \
     python=2.7.5-5ubuntu3 \
     ruby=1:1.9.3.4 \
     xfonts-100dpi=1:1.0.3 \
@@ -28,7 +28,7 @@ RUN apt-get update \
   && rm -rf /tmp/* /var/tmp/*
 
 RUN gem install \
-  scss-lint -v 0.33.0
+  scss-lint -v 0.37.0
 
 ENV TOC_PACKAGE_HOST https://dl.dropboxusercontent.com/u/172349
 
@@ -65,11 +65,11 @@ WORKDIR /usr/local
 RUN npm install -g n && npm cache clean
 RUN n 0.10.36
 
-RUN npm install -g cordova@4.3.0 && npm cache clean
-RUN npm install -g gulp-cli@0.1.5 && npm cache clean
-RUN npm install -g http-server@0.7.5 && npm cache clean
-RUN npm install -g ionic@1.3.16 && npm cache clean
-RUN npm install -g jspm@0.14.0 && npm cache clean
+RUN npm install -g cordova@5.0.0 && npm cache clean
+RUN npm install -g gulp-cli@0.2.0 && npm cache clean
+RUN npm install -g http-server@0.8.0 && npm cache clean
+RUN npm install -g ionic@1.3.20 && npm cache clean
+RUN npm install -g jspm@0.15.5 && npm cache clean
 RUN npm install -g karma-cli@0.0.4 && npm cache clean
 RUN npm install -g protractor@2.0.0 && npm cache clean
 
