@@ -9,7 +9,7 @@ if ! dpkg -s lxc-docker | grep -q Version.*$DOCKER_VERSION; then
 
   sudo apt-get update \
     && sudo apt-get install -y \
-      curl=7.35.0-1ubuntu2.3 \
+      curl \
       lxc-docker=$DOCKER_VERSION \
     && sudo apt-get clean \
     && sudo rm -rf /tmp/* /var/tmp/*

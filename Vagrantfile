@@ -40,9 +40,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provider "hyperv" do |vm, override|
-    override.vm.box = "cirex/ubuntu-14.04"
+    override.vm.box = "ericmann/trusty64"
     begin
-      require_relative "secrets/vagrant-secrets"
+      require_relative ".secrets/vagrant-secrets"
 
       override.vm.synced_folder ".", "/home/vagrant/toc-env",
         smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
