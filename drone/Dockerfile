@@ -1,6 +1,8 @@
-FROM ubuntu:14.04.1
+FROM ubuntu:14.04.2
 
 MAINTAINER Lewis Liu
+
+# Hasn't been updated in a while
 
 WORKDIR /usr/local
 

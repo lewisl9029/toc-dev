@@ -1,4 +1,4 @@
-FROM ubuntu:14.04.1
+FROM ubuntu:14.04.2
 
 MAINTAINER Lewis Liu
 
@@ -8,83 +8,68 @@ VOLUME /toc
 
 WORKDIR /usr/local
 
-RUN apt-get update \
-  && apt-get install -y \
-    ant=1.9.3-2build1 \
-    build-essential=11.6ubuntu6 \
-    curl=7.35.0-1ubuntu2.3 \
-    git=1:1.9.1-1 \
-    lib32stdc++6=4.8.2-19ubuntu1 \
-    lib32z1=1:1.2.8.dfsg-1ubuntu1 \
-    openjdk-7-jdk=7u75-2.5.4-1~trusty1 \
-    python=2.7.5-5ubuntu3 \
-    ruby=1:1.9.3.4 \
-    xfonts-100dpi=1:1.0.3 \
-    xfonts-75dpi=1:1.0.3 \
-    xfonts-cyrillic=1:1.0.3 \
-    xfonts-scalable=1:1.0.3-1 \
-    xvfb=2:1.15.1-0ubuntu2.7 \
-  && apt-get clean \
-  && rm -rf /tmp/* /var/tmp/*
+RUN apt-get update && \
+  apt-get install -y \
+    ant \
+    build-essential \
+    curl \
+    git \
+    lib32stdc++6 \
+    lib32z1 \
+    openjdk-7-jdk \
+    python \
+    ruby \
+    xfonts-100dpi \
+    xfonts-75dpi \
+    xfonts-cyrillic \
+    xfonts-scalable \
+    xvfb && \
+  apt-get clean && \
+  rm -rf /tmp/* /var/tmp/* && \
+  gem install \
+    scss-lint -v 0.37.0
 
-RUN gem install \
-  scss-lint -v 0.33.0
+ENV TOC_BUNDLE_FOLDER=bundle \
+  TOC_CHROME_BUNDLE_NAME=google-chrome-stable_current_amd64.deb \
+  TOC_NODE_BUNDLE_NAME=node-v0.12.2-linux-x64.tar.gz \
+  TOC_ANDROID_BUNDLE_NAME=android-sdk_r24.2-linux.tgz \
+  TOC_BUNDLE_PATH=/usr/local/toc-bundle \
+  TOC_PLATFORMS_BUNDLE_NAME=toc-platforms.tar.gz \
+  TOC_PLUGINS_BUNDLE_NAME=toc-plugins.tar.gz \
+  TOC_ENGINE_BUNDLE_NAME=toc-engine.tar.gz \
+  DISPLAY=:1 \
+  ANDROID_HOME=/usr/local/android-sdk-linux \
+  PATH=$PATH:/usr/local/android-sdk-linux/tools:/usr/local/android-sdk-linux/platform-tools
 
-ENV TOC_PACKAGE_HOST https://dl.dropboxusercontent.com/u/172349
+COPY $TOC_BUNDLE_FOLDER /usr/local/
 
-ENV TOC_CHROME_PACKAGE_NAME google-chrome-stable_current_amd64_v20150209.deb
-ADD $TOC_PACKAGE_HOST/$TOC_CHROME_PACKAGE_NAME /usr/local/
-RUN dpkg -i $TOC_CHROME_PACKAGE_NAME; \
-  apt-get -y -f install && apt-get clean && rm $TOC_CHROME_PACKAGE_NAME
+RUN dpkg -i $TOC_CHROME_BUNDLE_NAME; \
+  apt-get -y -f install && apt-get clean && rm $TOC_CHROME_BUNDLE_NAME && \
+  tar -xzf $TOC_NODE_BUNDLE_NAME --strip-components=1 --exclude='ChangeLog' \
+    --exclude='LICENSE' --exclude='README.md' && rm $TOC_NODE_BUNDLE_NAME && \
+  tar -xzf $TOC_ANDROID_BUNDLE_NAME && rm $TOC_ANDROID_BUNDLE_NAME && \
+  echo "y" | android update sdk --no-ui --all -t 2,3,23 && \
+  mkdir -p $TOC_BUNDLE_PATH && \
+  tar -xzf $TOC_PLATFORMS_BUNDLE_NAME -C $TOC_BUNDLE_PATH && \
+  rm $TOC_PLATFORMS_BUNDLE_NAME && \
+  tar -xzf $TOC_PLUGINS_BUNDLE_NAME -C $TOC_BUNDLE_PATH && \
+  rm $TOC_PLUGINS_BUNDLE_NAME && \
+  tar -xzf $TOC_ENGINE_BUNDLE_NAME -C $TOC_BUNDLE_PATH && \
+  rm $TOC_ENGINE_BUNDLE_NAME
 
-ENV TOC_NODE_PACKAGE_NAME node-v0.12.0-linux-x64_v20150210.tar.gz
-ADD $TOC_PACKAGE_HOST/$TOC_NODE_PACKAGE_NAME /usr/local/
-RUN tar -xzf $TOC_NODE_PACKAGE_NAME && rm $TOC_NODE_PACKAGE_NAME
+RUN npm install -g n && npm cache clean && \
+  n 0.10.38 && \
+  npm install -g cordova@5.0.0 && \
+  npm install -g gulp-cli@0.2.0 && \
+  npm install -g http-server@0.8.0 && \
+  npm install -g ionic@1.3.22 && \
+  npm install -g jspm@0.15.6 && \
+  npm install -g karma-cli@0.0.4 && \
+  npm install -g protractor@2.0.0 && \
+  npm cache clean && \
+  webdriver-manager update
 
-ENV TOC_ANDROID_PACKAGE_NAME android-sdk_r24.0.2-linux_v20150210.tar.gz
-ADD $TOC_PACKAGE_HOST/android-sdk_r24.0.2-linux_v20150210.tar.gz /usr/local/
-RUN tar -xzf $TOC_ANDROID_PACKAGE_NAME && rm $TOC_ANDROID_PACKAGE_NAME
-
-ENV TOC_BUILD_DEPS_PATH /usr/local/toc-build-deps/
-WORKDIR $TOC_BUILD_DEPS_PATH
-
-ENV TOC_PLATFORMS_PACKAGE_NAME platforms_v20150210.tar.gz
-ADD $TOC_PACKAGE_HOST/$TOC_PLATFORMS_PACKAGE_NAME $TOC_BUILD_DEPS_PATH
-RUN tar -xzf $TOC_PLATFORMS_PACKAGE_NAME && rm $TOC_PLATFORMS_PACKAGE_NAME
-
-ENV TOC_PLUGINS_PACKAGE_NAME plugins_v20150210.tar.gz
-ADD $TOC_PACKAGE_HOST/$TOC_PLUGINS_PACKAGE_NAME $TOC_BUILD_DEPS_PATH
-RUN tar -xzf $TOC_PLUGINS_PACKAGE_NAME && rm $TOC_PLUGINS_PACKAGE_NAME
-
-ENV TOC_ENGINE_PACKAGE_NAME engine_v20150210.tar.gz
-ADD $TOC_PACKAGE_HOST/$TOC_ENGINE_PACKAGE_NAME $TOC_BUILD_DEPS_PATH
-RUN tar -xzf $TOC_ENGINE_PACKAGE_NAME && rm $TOC_ENGINE_PACKAGE_NAME
-
-WORKDIR /usr/local
-
-RUN npm install -g n && npm cache clean
-RUN n 0.10.36
-
-RUN npm install -g cordova@4.3.0 && npm cache clean
-RUN npm install -g gulp-cli@0.1.5 && npm cache clean
-RUN npm install -g http-server@0.7.5 && npm cache clean
-RUN npm install -g ionic@1.3.16 && npm cache clean
-RUN npm install -g jspm@0.14.0 && npm cache clean
-RUN npm install -g karma-cli@0.0.4 && npm cache clean
-RUN npm install -g protractor@2.0.0 && npm cache clean
-
-RUN webdriver-manager update
-
-ENV DISPLAY :1
-ENV ANDROID_HOME /usr/local/android-sdk-linux
-ENV PATH $PATH:$ANDROID_HOME/tools
-ENV PATH $PATH:$ANDROID_HOME/platform-tools
-
-# Expose ionic serve port
-EXPOSE 8100
-# Expose ionic serve livereload port
-EXPOSE 8101
-# Expose karma server port
-EXPOSE 8102
+# Expose ionic serve, livereload, karma server ports
+EXPOSE 8100 8101 8102
 
 WORKDIR /toc

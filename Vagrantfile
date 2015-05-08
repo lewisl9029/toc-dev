@@ -1,13 +1,5 @@
 VAGRANTFILE_API_VERSION = "2"
 
-# if ENV["TOC_VAGRANT_BOX"]
-#   puts "Using box ", ENV["TOC_VAGRANT_BOX"]
-# else
-#   puts "Please set TOC_VAGRANT_BOX to a Ubuntu 14.04 based Vagrant box."
-#   puts "Browse for available boxes here:"
-#   puts "https://atlas.hashicorp.com/boxes/search"
-# end
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.box = ENV["TOC_VAGRANT_BOX"]
   config.vm.box = "chef/ubuntu-14.04"
@@ -40,19 +32,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vm.memory = 1024
   end
 
-  config.vm.provider "vmware_workstation" do |vm|
+  config.vm.provider "vmware_workstation" do |vm, override|
     # vm.gui = true
+    override.vm.box = "puphpet/ubuntu1404-x64"
     vm.vmx["memsize"] = "1024"
-    # vm.vmx["vmx.allowNested"] = "TRUE"
+    vm.vmx["vmx.allowNested"] = "TRUE"
   end
 
   config.vm.provider "hyperv" do |vm, override|
-    override.vm.box = "cirex/ubuntu-14.04"
+    override.vm.box = "ericmann/trusty64"
     begin
-      require_relative "secrets/vagrant-secrets"
+      require_relative ".secrets/vagrant-secrets"
 
-      override.vm.synced_folder ".", "/home/vagrant/toc-env", smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
-      override.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc", smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
+      override.vm.synced_folder ".", "/home/vagrant/toc-env",
+        smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
+      override.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc",
+        smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
     rescue LoadError
       override.vm.synced_folder ".", "/home/vagrant/toc-env"
       override.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc"
