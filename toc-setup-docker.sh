@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-DOCKER_VERSION=1.6.1
+DOCKER_VERSION=1.6.2
 
 if ! dpkg -s lxc-docker | grep -q Version.*$DOCKER_VERSION; then
   echo deb https://get.docker.com/ubuntu docker main \

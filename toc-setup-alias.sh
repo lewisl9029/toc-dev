@@ -35,6 +35,14 @@ alias toct="toc \
   sh -c 'xvfb-run -n 1 --server-args=\"-screen 0, 1366x768x24\" \
     gulp test "$@"'"
 
+alias toctu="toc \
+  sh -c 'xvfb-run -n 1 --server-args=\"-screen 0, 1366x768x24\" \
+    gulp test-unit "$@"'"
+
+alias tocte="toc \
+  sh -c 'xvfb-run -n 1 --server-args=\"-screen 0, 1366x768x24\" \
+    gulp test-e2e "$@"'"
+
 alias tocv="toc \
   sh -c 'xvfb-run -n 1 --server-args=\"-screen 0, 1366x768x24\" \
     gulp verify "$@"'"
