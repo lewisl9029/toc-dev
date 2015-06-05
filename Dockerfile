@@ -48,8 +48,10 @@ RUN dpkg -i $TOC_CHROME_BUNDLE_NAME; \
   tar -xzf $TOC_NODE_BUNDLE_NAME --strip-components=1 --exclude='ChangeLog' \
     --exclude='LICENSE' --exclude='README.md' && rm $TOC_NODE_BUNDLE_NAME && \
   tar -xzf $TOC_ANDROID_BUNDLE_NAME && rm $TOC_ANDROID_BUNDLE_NAME && \
-  echo "y" | android update sdk --no-ui --all \
-    -t tools,build-tools-23.0.0_rc1,android-21 && \
+  echo "y" | android update sdk --no-ui --all -t build-tools-22.0.1 && \
+  echo "y" | android update sdk --no-ui --all -t platform-tools && \
+  echo "y" | android update sdk --no-ui --all -t tools && \
+  echo "y" | android update sdk --no-ui --all -t android-21 && \
   mkdir -p $TOC_BUNDLE_PATH && \
   tar -xzf $TOC_PLATFORMS_BUNDLE_NAME -C $TOC_BUNDLE_PATH && \
   rm $TOC_PLATFORMS_BUNDLE_NAME && \
