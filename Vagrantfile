@@ -8,15 +8,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, path: "vagrant-provision.sh",
     privileged: false
 
+  # toc ports
   config.vm.network "forwarded_port", guest: 8100, host: 8100 # http server
   config.vm.network "forwarded_port", guest: 8101, host: 8101 # livereload
   config.vm.network "forwarded_port", guest: 8102, host: 8102 # karma server
+  # toc landing ports
+  if ENV["TOC_LANDING_PATH"]
+    config.vm.network "forwarded_port", guest: 8200, host: 8200 # http server
+    config.vm.network "forwarded_port", guest: 8201, host: 8201 # livereload
+  end
   # config.vm.network "forwarded_port", guest: 8201, host: 8201 # apt cache
   # config.vm.network "forwarded_port", guest: 8202, host: 8202 # npm cache
   # config.vm.network "forwarded_port", guest: 8203, host: 8203 # selenium server
 
   config.vm.synced_folder ".", "/home/vagrant/toc-env"
   config.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc"
+  if ENV["TOC_LANDING_PATH"]
+    config.vm.synced_folder ENV["TOC_LANDING_PATH"], "/home/vagrant/toc-landing"
+  end
   # config.vm.synced_folder ".", "/home/vagrant/toc", type: "nfs"
   # config.vm.network "private_network", type: "dhcp"
   # config.winnfsd.logging = "on"
@@ -48,9 +57,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
       override.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc",
         smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
+      if ENV["TOC_LANDING_PATH"]
+        override.vm.synced_folder ENV["TOC_LANDING_PATH"],
+          "/home/vagrant/toc-landing",
+          smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
+      end
     rescue LoadError
       override.vm.synced_folder ".", "/home/vagrant/toc-env"
       override.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc"
+      if ENV["TOC_LANDING_PATH"]
+        override.vm.synced_folder ENV["TOC_LANDING_PATH"],
+          "/home/vagrant/toc-landing"
+      end
     end
   end
 end
