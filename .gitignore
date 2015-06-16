@@ -1,3 +1,5 @@
 /.vagrant
-/**/bundle
+/bundle/*.gz
+/bundle/*.tgz
+/bundle/*.deb
 /.secrets
