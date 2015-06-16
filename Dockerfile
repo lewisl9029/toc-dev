@@ -69,7 +69,7 @@ RUN npm install -g n && npm cache clean && \
   npm install -g cordova@5.0.0 && \
   npm install -g gulp-cli@0.2.0 && \
   npm install -g http-server@0.8.0 && \
-  npm install -g ionic@1.5.0 && \
+  npm install -g ionic@1.5.4 && \
   npm install -g jspm@0.16.0-beta.2 && \
   npm install -g karma-cli@0.0.4 && \
   npm install -g protractor@2.1.0 && \
