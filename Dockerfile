@@ -3,6 +3,7 @@ FROM ubuntu:14.04.2
 MAINTAINER Lewis Liu
 
 VOLUME /toc
+VOLUME /toc-landing
 
 # Set up node environment
 
@@ -28,6 +29,9 @@ RUN apt-get update && \
   rm -rf /tmp/* /var/tmp/* && \
   gem install \
     scss-lint -v 0.38.0
+
+ADD toc-setup-bundle.sh /usr/local/toc-setup-bundle.sh
+RUN /bin/bash toc-setup-bundle.sh
 
 ENV TOC_BUNDLE_FOLDER=bundle \
   TOC_CHROME_BUNDLE_NAME=google-chrome-stable_current_amd64.deb \
@@ -66,13 +70,14 @@ RUN npm install -g n && npm cache clean && \
   npm install -g gulp-cli@0.2.0 && \
   npm install -g http-server@0.8.0 && \
   npm install -g ionic@1.5.0 && \
-  npm install -g jspm@0.16.0-beta && \
+  npm install -g jspm@0.16.0-beta.2 && \
   npm install -g karma-cli@0.0.4 && \
   npm install -g protractor@2.1.0 && \
   npm cache clean && \
   webdriver-manager update
 
 # Expose ionic serve, livereload, karma server ports
-EXPOSE 8100 8101 8102
+EXPOSE 8100 8101 8102 8200 8201
 
 WORKDIR /toc
+#WORKDIR /toc-landing
