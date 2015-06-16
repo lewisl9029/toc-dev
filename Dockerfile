@@ -30,9 +30,6 @@ RUN apt-get update && \
   gem install \
     scss-lint -v 0.38.0
 
-ADD toc-setup-bundle.sh /usr/local/toc-setup-bundle.sh
-RUN /bin/bash toc-setup-bundle.sh
-
 ENV TOC_BUNDLE_FOLDER=bundle \
   TOC_CHROME_BUNDLE_NAME=google-chrome-stable_current_amd64.deb \
   TOC_NODE_BUNDLE_NAME=node-v0.12.4-linux-x64.tar.gz \
@@ -46,6 +43,9 @@ ENV TOC_BUNDLE_FOLDER=bundle \
   PATH=$PATH:/usr/local/android-sdk-linux/tools:/usr/local/android-sdk-linux/platform-tools
 
 COPY $TOC_BUNDLE_FOLDER /usr/local/
+
+ADD toc-setup-bundle.sh /usr/local/toc-setup-bundle.sh
+RUN /bin/bash toc-setup-bundle.sh
 
 RUN dpkg -i $TOC_CHROME_BUNDLE_NAME; \
   apt-get -y -f install && apt-get clean && rm $TOC_CHROME_BUNDLE_NAME && \
