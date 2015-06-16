@@ -52,7 +52,7 @@ alias tocl="sudo docker run \
   -p 8200:8200 \
   -p 8201:8201 \
   -v $TOC_LANDING_PATH:/toc-landing \
-  -w /toc-landing \
+  -w="/toc-landing" \
   toc-dev:latest \
   "$@""
 
