@@ -5,10 +5,10 @@ if [ ! -f $TOC_CHROME_BUNDLE_NAME ]; then
     https://dl.google.com/linux/direct/$TOC_CHROME_BUNDLE_NAME --create-dirs -sS
 fi
 
-TOC_NODE_BUNDLE_NAME=node-v0.12.4-linux-x64.tar.gz
+TOC_NODE_BUNDLE_NAME=node-v0.12.7-linux-x64.tar.gz
 if [ ! -f $TOC_NODE_BUNDLE_NAME ]; then
   curl -o $TOC_NODE_BUNDLE_NAME \
-    http://nodejs.org/dist/v0.12.4/$TOC_NODE_BUNDLE_NAME --create-dirs -sS
+    http://nodejs.org/dist/v0.12.7/$TOC_NODE_BUNDLE_NAME --create-dirs -sS
 fi
 
 TOC_ANDROID_BUNDLE_NAME=android-sdk_r24.2-linux.tgz
