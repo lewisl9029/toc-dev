@@ -48,10 +48,11 @@ RUN dpkg -i $TOC_CHROME_BUNDLE_NAME; \
   tar -xzf $TOC_NODE_BUNDLE_NAME --strip-components=1 --exclude='ChangeLog' \
     --exclude='LICENSE' --exclude='README.md' && rm $TOC_NODE_BUNDLE_NAME && \
   tar -xzf $TOC_ANDROID_BUNDLE_NAME && rm $TOC_ANDROID_BUNDLE_NAME && \
+  android list sdk --extended --all && \
   echo "y" | android update sdk --no-ui --all -t build-tools-22.0.1 && \
   echo "y" | android update sdk --no-ui --all -t platform-tools && \
   echo "y" | android update sdk --no-ui --all -t tools && \
-  echo "y" | android update sdk --no-ui --all -t android-21
+  echo "y" | android update sdk --no-ui --all -t android-22
 
 RUN npm install -g npm@3.2.1 && \
   npm install -g cordova@5.1.1 && \
