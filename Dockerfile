@@ -34,10 +34,6 @@ ENV TOC_BUNDLE_FOLDER=bundle \
   TOC_CHROME_BUNDLE_NAME=google-chrome-stable_current_amd64.deb \
   TOC_NODE_BUNDLE_NAME=node-v0.12.7-linux-x64.tar.gz \
   TOC_ANDROID_BUNDLE_NAME=android-sdk_r24.2-linux.tgz \
-  TOC_BUNDLE_PATH=/usr/local/toc-bundle \
-  TOC_PLATFORMS_BUNDLE_NAME=toc-platforms.tar.gz \
-  TOC_PLUGINS_BUNDLE_NAME=toc-plugins.tar.gz \
-  TOC_ENGINE_BUNDLE_NAME=toc-engine.tar.gz \
   DISPLAY=:1 \
   ANDROID_HOME=/usr/local/android-sdk-linux \
   PATH=$PATH:/usr/local/android-sdk-linux/tools:/usr/local/android-sdk-linux/platform-tools
@@ -52,24 +48,18 @@ RUN dpkg -i $TOC_CHROME_BUNDLE_NAME; \
   tar -xzf $TOC_NODE_BUNDLE_NAME --strip-components=1 --exclude='ChangeLog' \
     --exclude='LICENSE' --exclude='README.md' && rm $TOC_NODE_BUNDLE_NAME && \
   tar -xzf $TOC_ANDROID_BUNDLE_NAME && rm $TOC_ANDROID_BUNDLE_NAME && \
+  android list sdk --extended --all && \
   echo "y" | android update sdk --no-ui --all -t build-tools-22.0.1 && \
   echo "y" | android update sdk --no-ui --all -t platform-tools && \
   echo "y" | android update sdk --no-ui --all -t tools && \
-  echo "y" | android update sdk --no-ui --all -t android-21 && \
-  mkdir -p $TOC_BUNDLE_PATH && \
-  tar -xzf $TOC_PLATFORMS_BUNDLE_NAME -C $TOC_BUNDLE_PATH && \
-  rm $TOC_PLATFORMS_BUNDLE_NAME && \
-  tar -xzf $TOC_PLUGINS_BUNDLE_NAME -C $TOC_BUNDLE_PATH && \
-  rm $TOC_PLUGINS_BUNDLE_NAME && \
-  tar -xzf $TOC_ENGINE_BUNDLE_NAME -C $TOC_BUNDLE_PATH && \
-  rm $TOC_ENGINE_BUNDLE_NAME
+  echo "y" | android update sdk --no-ui --all -t android-22
 
-RUN npm install -g n@1.3.0 && npm cache clean && \
-  n 0.12.7 && \
+RUN npm install -g npm@3.2.1 && \
   npm install -g cordova@5.1.1 && \
   npm install -g gulp-cli@0.3.0 && \
   npm install -g http-server@0.8.0 && \
-  npm install -g ionic@1.6.1 && \
+  npm install -g jspm-server@0.1.8 && \
+  npm install -g ionic@1.6.4 && \
   npm install -g jspm@0.16.0-beta.3 && \
   npm install -g karma-cli@0.1.0 && \
   npm install -g protractor@2.1.0 && \

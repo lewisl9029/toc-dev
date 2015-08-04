@@ -8,6 +8,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, path: "vagrant-provision.sh",
     privileged: false
 
+  config.vm.boot_timeout = 600
+
   # toc ports
   config.vm.network "forwarded_port", guest: 8100, host: 8100 # http server
   config.vm.network "forwarded_port", guest: 8101, host: 8101 # livereload
@@ -45,6 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # vm.gui = true
     override.vm.box = "puphpet/ubuntu1404-x64"
     vm.vmx["memsize"] = "1024"
+    vm.vmx["numvcpus"] = "4"
     vm.vmx["vmx.allowNested"] = "TRUE"
   end
 
