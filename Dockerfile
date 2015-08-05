@@ -66,6 +66,8 @@ RUN npm install -g npm@3.2.1 && \
   npm cache clean && \
   webdriver-manager update
 
+VOLUME /root/.gradle
+
 # Expose ionic serve, livereload, karma server ports
 EXPOSE 8100 8101 8102 8200 8201
 
