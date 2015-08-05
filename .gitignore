@@ -1,4 +1,5 @@
 /.vagrant
+/cache
 /bundle/*.gz
 /bundle/*.tgz
 /bundle/*.deb
