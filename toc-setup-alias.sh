@@ -7,6 +7,7 @@ alias toc="sudo docker run \
   -p 8101:8101 \
   -p 8102:8102 \
   -v $TOC_PATH:/toc \
+  -v $TOC_ENV_PATH/cache/gradle:/root/.gradle \
   toc-dev:latest \
   "$@""
 
