@@ -30,7 +30,7 @@ RUN apt-get update && \
   gem install \
     scss_lint -v 0.40.1
 
-ENV TOC_BUNDLE_FOLDER=bundle \
+ENV TOC_BUNDLE_FOLDER=cache/bundle \
   TOC_CHROME_BUNDLE_NAME=google-chrome-stable_current_amd64.deb \
   TOC_NODE_BUNDLE_NAME=node-v0.12.7-linux-x64.tar.gz \
   TOC_ANDROID_BUNDLE_NAME=android-sdk_r24.2-linux.tgz \
@@ -67,6 +67,7 @@ RUN npm install -g npm@3.2.1 && \
   webdriver-manager update
 
 VOLUME /root/.gradle
+VOLUME /root/.android
 
 # Expose ionic serve, livereload, karma server ports
 EXPOSE 8100 8101 8102 8200 8201

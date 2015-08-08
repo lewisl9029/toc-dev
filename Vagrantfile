@@ -49,12 +49,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vm.vmx["memsize"] = "1024"
     vm.vmx["numvcpus"] = "4"
     vm.vmx["vmx.allowNested"] = "TRUE"
+    vm.vmx["ehci.present"] = "TRUE"
+    vm.vmx["usb.present"] = "TRUE"
   end
 
   config.vm.provider "hyperv" do |vm, override|
     override.vm.box = "ericmann/trusty64"
     begin
-      require_relative ".secrets/vagrant-secrets"
+      require_relative "secrets/vagrant-secrets"
 
       override.vm.synced_folder ".", "/home/vagrant/toc-env",
         smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
