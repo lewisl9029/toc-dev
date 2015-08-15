@@ -1,10 +1,18 @@
 VAGRANTFILE_API_VERSION = "2"
 
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  if ENV["TOC_HOST_IP"]
+    host_ip = ENV["TOC_HOST_IP"];
+    puts "Using #{host_ip} for device livereload."
+  else
+    host_ip = "127.0.0.1"
+    puts "Set $TOC_HOST_IP and reprovision to enable device livereload."
+  end
   # config.vm.box = ENV["TOC_VAGRANT_BOX"]
   config.vm.box = "chef/ubuntu-14.04"
   config.vm.provision :shell, path: "toc-setup-env.sh",
-    privileged: false
+    privileged: false, args: host_ip
   config.vm.provision :shell, path: "vagrant-provision.sh",
     privileged: false
 
