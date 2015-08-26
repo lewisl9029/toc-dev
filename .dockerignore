@@ -1,3 +1,5 @@
-.vagrant/*
-.git/*
-.secrets/*
+.vagrant
+.vagrant.vmware
+.vagrant.virtualbox
+.git
+.secrets

@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     puts "Set $TOC_HOST_IP and reprovision to enable device livereload."
   end
   # config.vm.box = ENV["TOC_VAGRANT_BOX"]
-  config.vm.box = "chef/ubuntu-14.04"
+  config.vm.box = "puphpet/ubuntu1404-x64"
   config.vm.provision :shell, path: "toc-setup-env.sh",
     privileged: false, args: host_ip
   config.vm.provision :shell, path: "vagrant-provision.sh",
@@ -48,14 +48,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider "virtualbox" do |vm|
-    vm.memory = 1024
+    vm.memory = 512
   end
 
   config.vm.provider "vmware_workstation" do |vm, override|
     # vm.gui = true
-    override.vm.box = "puphpet/ubuntu1404-x64"
-    vm.vmx["memsize"] = "1024"
-    vm.vmx["numvcpus"] = "4"
+    vm.vmx["memsize"] = "512"
+    vm.vmx["numvcpus"] = "1"
     vm.vmx["vmx.allowNested"] = "TRUE"
     vm.vmx["ehci.present"] = "TRUE"
     vm.vmx["usb.present"] = "TRUE"
