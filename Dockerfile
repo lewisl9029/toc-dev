@@ -67,7 +67,7 @@ RUN npm install -g npm@3.3.0 && \
   webdriver-manager update
 
 RUN npm uninstall -g ionic
-RUN npm install -g ionic-run-external-address@0.0.5 && npm cache clean
+RUN npm install -g ionic-no-cordova-mock@0.0.2 && npm cache clean
 
 VOLUME /root/.gradle
 VOLUME /root/.android

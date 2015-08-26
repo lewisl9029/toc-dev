@@ -1,3 +1,5 @@
 /.vagrant
+/.vagrant.vmware
+/.vagrant.virtualbox
 /secrets
 /cache
