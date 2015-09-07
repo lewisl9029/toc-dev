@@ -50,7 +50,7 @@ RUN dpkg -i $TOC_CHROME_BUNDLE_NAME; \
   echo "y" | android update sdk --no-ui --all -t build-tools-23.0.1 && \
   echo "y" | android update sdk --no-ui --all -t platform-tools && \
   echo "y" | android update sdk --no-ui --all -t tools && \
-  echo "y" | android update sdk --no-ui --all -t android-23
+  echo "y" | android update sdk --no-ui --all -t android-22
 
 RUN npm install -g npm@3.3.2 && \
   npm install -g cordova@5.2.0 && \
