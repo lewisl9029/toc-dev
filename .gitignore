@@ -2,4 +2,7 @@
 /.vagrant.vmware
 /.vagrant.virtualbox
 /secrets
-/cache
+/cache/*
+!/cache/bundle
+/cache/bundle/*
+!/cache/bundle/placeholder
