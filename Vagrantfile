@@ -1,6 +1,5 @@
 VAGRANTFILE_API_VERSION = "2"
 
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if ENV["TOC_HOST_IP"]
     host_ip = ENV["TOC_HOST_IP"];
@@ -9,7 +8,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     host_ip = "127.0.0.1"
     puts "Set $TOC_HOST_IP and reprovision to enable device livereload."
   end
-  # config.vm.box = ENV["TOC_VAGRANT_BOX"]
   config.vm.box = "puphpet/ubuntu1404-x64"
   config.vm.provision :shell, path: "toc-setup-env.sh",
     privileged: false, args: host_ip
@@ -25,29 +23,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network "forwarded_port", guest: 8200, host: 8200 # http server
     config.vm.network "forwarded_port", guest: 8201, host: 8201 # livereload
   end
-  # config.vm.network "forwarded_port", guest: 8201, host: 8201 # apt cache
-  # config.vm.network "forwarded_port", guest: 8202, host: 8202 # npm cache
-  # config.vm.network "forwarded_port", guest: 8203, host: 8203 # selenium server
 
   config.vm.synced_folder ".", "/home/vagrant/toc-env"
   config.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc"
   if ENV["TOC_LANDING_PATH"]
     config.vm.synced_folder ENV["TOC_LANDING_PATH"], "/home/vagrant/toc-landing"
   end
-  # config.vm.synced_folder ".", "/home/vagrant/toc", type: "nfs"
-  # config.vm.network "private_network", type: "dhcp"
-  # config.winnfsd.logging = "on"
-  # config.winnfsd.uid = 900
-  # config.winnfsd.gid = 900
-#  config.vm.synced_folder "./.cache", "/var/cache/toc",
-#    create: true,
-#    owner: "vagrant",
-#    mount_options: ["dmode=777,fmode=777"]
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider "virtualbox" do |vm|
     # uncomment if can't mount device from gui
-    # vm.gui = true 
+    # vm.gui = true
     vm.memory = 512
     vm.cpus = 1
     vm.customize ["modifyvm", :id, "--usb", "on"]

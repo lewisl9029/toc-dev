@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 (
 cat <<ALIASES
+  alias toc-pull="source $TOC_ENV_PATH/toc-setup-docker-pull.sh"
+
+  alias toc-build="source $TOC_ENV_PATH/toc-setup-docker-build.sh"
+
   alias toc="sudo docker run \
     -i -t --rm --privileged \
     -p 8100:8100 \
@@ -11,7 +15,7 @@ cat <<ALIASES
     -v $TOC_PATH:/toc \
     -v $TOC_ENV_PATH/cache/android:/root/.android \
     -v /home/$USERNAME/.gradle:/root/.gradle \
-    toc-dev:latest \
+    lewisl9029/toc-dev:latest \
     "$@""
 
   alias tocb="tocg \
@@ -60,7 +64,7 @@ cat <<ALIASES
     -p 8201:8201 \
     -v $TOC_LANDING_PATH:/toc-landing \
     -w="/toc-landing" \
-    toc-dev:latest \
+    lewisl9029/toc-dev:latest \
     "$@""
 
   alias toclg="tocl \
