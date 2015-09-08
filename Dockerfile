@@ -2,6 +2,7 @@ FROM ubuntu:14.04.3
 
 MAINTAINER Lewis Liu
 
+ENV TOC_SETUP_PATH=/usr/local
 WORKDIR /usr/local
 
 # setting up various system packages
@@ -26,22 +27,22 @@ RUN apt-get update && \
   rm -rf /tmp/* /var/tmp/*
 
 # setting up environment variables
-ENV TOC_BUNDLE_FOLDER=cache/bundle \
+ENV TOC_BUNDLE_PATH=cache/bundle \
   TOC_CHROME_BUNDLE_NAME=google-chrome-stable_current_amd64.deb \
   TOC_NODE_BUNDLE_NAME=node-v0.12.7-linux-x64.tar.gz \
   TOC_ANDROID_BUNDLE_NAME=android-sdk_r24.3.4-linux.tgz \
   DISPLAY=:1 \
-  ANDROID_HOME=/usr/local/android-sdk-linux \
-  PATH=$PATH:/usr/local/android-sdk-linux/tools:/usr/local/android-sdk-linux/platform-tools
+  ANDROID_HOME=$TOC_SETUP_PATH/android-sdk-linux \
+  PATH=$PATH:$TOC_SETUP_PATH/android-sdk-linux/tools:$TOC_SETUP_PATH/android-sdk-linux/platform-tools
 
 # setup for local builds
 # bundles should already be populated by vagrant
-COPY $TOC_BUNDLE_FOLDER /usr/local/
+COPY $TOC_BUNDLE_PATH $TOC_SETUP_PATH
 
 # setup for dockerhub
 # bundles need to be downloaded for each build
-ADD toc-setup-bundle.sh /usr/local/toc-setup-bundle.sh
-RUN /bin/bash toc-setup-bundle.sh
+ADD toc-setup-bundle.sh $TOC_SETUP_PATH/toc-setup-bundle.sh
+RUN /bin/bash toc-setup-bundle.sh $TOC_SETUP_PATH
 
 # installing chrome and android sdk
 RUN dpkg -i $TOC_CHROME_BUNDLE_NAME; \
