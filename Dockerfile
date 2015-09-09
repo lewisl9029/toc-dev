@@ -29,7 +29,7 @@ RUN apt-get update && \
 # setting up environment variables
 ENV TOC_BUNDLE_PATH=cache/bundle \
   TOC_CHROME_BUNDLE_NAME=google-chrome-stable_current_amd64.deb \
-  TOC_NODE_BUNDLE_NAME=node-v0.12.7-linux-x64.tar.gz \
+  TOC_NODE_BUNDLE_NAME=node-v4.0.0-linux-x64.tar.gz \
   TOC_ANDROID_BUNDLE_NAME=android-sdk_r24.3.4-linux.tgz \
   DISPLAY=:1 \
   ANDROID_HOME=$TOC_SETUP_PATH/android-sdk-linux \
@@ -65,9 +65,12 @@ RUN npm install -g npm@3.3.2 && \
   npm install -g ionic@1.6.4 && \
   npm install -g jspm@0.16.2 && \
   npm install -g karma-cli@0.1.0 && \
-  npm install -g protractor@2.2.0 && \
-  npm cache clean && \
-  webdriver-manager update
+  npm cache clean
+  # protractor fails node-gyp rebuild with node v4.0.0
+  # seems to be caused by https://github.com/websockets/bufferutil/issues/15
+  # npm install -g protractor@2.2.0 && \
+  # npm cache clean && \
+  # webdriver-manager update
 
 # replacing ionic-cli with custom fork for device livereload support
 # https://github.com/driftyco/ionic-cli/issues/557
