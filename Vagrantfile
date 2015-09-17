@@ -1,6 +1,11 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  if not ENV["TOC_PATH"]
+    puts "Please set $TOC_PATH to the path of the toc source repo."
+    raise "Please set $TOC_PATH to the path of the toc source repo."
+  end
+
   if ENV["TOC_HOST_IP"]
     host_ip = ENV["TOC_HOST_IP"];
     puts "Using #{host_ip} for device livereload."
@@ -8,6 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     host_ip = "127.0.0.1"
     puts "Set $TOC_HOST_IP and reprovision to enable device livereload."
   end
+
   config.vm.box = "puphpet/ubuntu1404-x64"
   config.vm.provision :shell, path: "toc-setup-env.sh",
     privileged: false, args: host_ip
