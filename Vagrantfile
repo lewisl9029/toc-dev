@@ -1,6 +1,11 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  if not ENV["TOC_PATH"]
+    puts "Please set $TOC_PATH to the path of the toc source repo."
+    raise "Please set $TOC_PATH to the path of the toc source repo."
+  end
+
   if ENV["TOC_HOST_IP"]
     host_ip = ENV["TOC_HOST_IP"];
     puts "Using #{host_ip} for device livereload."
@@ -8,6 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     host_ip = "127.0.0.1"
     puts "Set $TOC_HOST_IP and reprovision to enable device livereload."
   end
+
   config.vm.box = "puphpet/ubuntu1404-x64"
   config.vm.provision :shell, path: "toc-setup-env.sh",
     privileged: false, args: host_ip
@@ -18,17 +24,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 8100, host: 8100 # http server
   config.vm.network "forwarded_port", guest: 8101, host: 8101 # livereload
   config.vm.network "forwarded_port", guest: 8102, host: 8102 # karma server
-  # toc landing ports
-  if ENV["TOC_LANDING_PATH"]
-    config.vm.network "forwarded_port", guest: 8200, host: 8200 # http server
-    config.vm.network "forwarded_port", guest: 8201, host: 8201 # livereload
-  end
 
   config.vm.synced_folder ".", "/home/vagrant/toc-env"
   config.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc"
-  if ENV["TOC_LANDING_PATH"]
-    config.vm.synced_folder ENV["TOC_LANDING_PATH"], "/home/vagrant/toc-landing"
-  end
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider "virtualbox" do |vm|
@@ -57,18 +55,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
       override.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc",
         smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
-      if ENV["TOC_LANDING_PATH"]
-        override.vm.synced_folder ENV["TOC_LANDING_PATH"],
-          "/home/vagrant/toc-landing",
-          smb_username: SMB_USERNAME, smb_password: SMB_PASSWORD
-      end
     rescue LoadError
       override.vm.synced_folder ".", "/home/vagrant/toc-env"
       override.vm.synced_folder ENV["TOC_PATH"], "/home/vagrant/toc"
-      if ENV["TOC_LANDING_PATH"]
-        override.vm.synced_folder ENV["TOC_LANDING_PATH"],
-          "/home/vagrant/toc-landing"
-      end
     end
   end
 end

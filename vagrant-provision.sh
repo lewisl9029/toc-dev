@@ -6,4 +6,4 @@ source $TOC_ENV_PATH/toc-setup-alias.sh
 source $TOC_ENV_PATH/toc-setup-docker.sh
 
 echo "VM setup complete."
-echo "Please run toc-pull or toc-build to set up the docker container."
+echo "Please ssh into the VM using 'vagrant ssh' and use either the 'toc-pull' or 'toc-build' command to set up the docker container."
